@@ -4,27 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-ico" href="./images/favicon.jpeg">
-<!--    <link rel="stylesheet" href="css/style.css">-->
-<!--    <link rel="stylesheet" href="css/pages.css">-->
+    <link rel="stylesheet" href="//unpkg.com/element-ui@2.15.13/lib/theme-chalk/index.css">
+    <script src="//unpkg.com/vue@2/dist/vue.js"></script>
+    <script src="//unpkg.com/element-ui@2.15.13/lib/index.js"></script>
+    <link type="text/css" href="index.css">
     <title>Asial Jim GitHub Pages</title>
 </head>
-<body class="home">
-<header>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="blog.html">Blog</a></li>
-        </ul>
-    </nav>
-</header>
-<section class="hero-spot" id="hero-spot">
-    <h1>Websites for Asial Jim and His Projects</h1>
-    <p>Hello, I'm a IT engineer passionate about creating delightful web experiences.</p>
-    <p>On this website, I share my thoughts, experiences, and ideas related to web development and technology.</p>
-</section>
-<footer>
-    <p>&copy; 2023 Asial Jim. All rights reserved. | Designed by <a href="https://github.com/asialjim" target="_blank">Your Portfolio</a></p>
-</footer>
-</body>
-</html>
+
+<div id="app" style="background: aqua">
+    <el-container>
+
+        <el-header>
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
+                     background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+                <el-menu-item index="1">
+                    <el-icon-s-home>Home</el-icon-s-home>
+                </el-menu-item>
+                <el-submenu index="2">
+                    <template slot="title">Projects</template>
+                    <el-menu-item index="2-1">Remote</el-menu-item>
+                    <el-menu-item index="2-2">WeChatArch</el-menu-item>
+                    <el-menu-item index="2-3">Encrypt Communicate</el-menu-item>
+                </el-submenu>
+                <el-submenu index="3">
+                    <template slot="title">Blogs</template>
+                    <el-menu-item index="3-1">a</el-menu-item>
+                    <el-menu-item index="3-2">b</el-menu-item>
+                    <el-menu-item index="3-3">c</el-menu-item>
+                </el-submenu>
+
+                <el-menu-item index="4">About</el-menu-item>
+
+                <el-menu-item index="5">
+                    <a href="https://www.google.com" target="_blank">Google</a>
+                </el-menu-item>
+            </el-menu>
+        </el-header>
+        <el-main>
+            main
+        </el-main>
+    </el-container>
+
+    <div class="line"></div>
+
+</div>
+
+<script src="index.js"></script>
