@@ -73,8 +73,8 @@ cover:
 dream:
   enable: true
   showTitle: true
-  title: 我的梦想
-  text: 不是每个人都应该像我这样去建造一座水晶大教堂，但是每个人都应该拥有自己的梦想，设计自己的梦想，追求自己的梦想，实现自己的梦想。梦想是生命的灵魂，是心灵的灯塔，是引导人走向成功的信仰。有了崇高的梦想，只要矢志不渝地追求，梦想就会成为现实，奋斗就会变成壮举，生命就会创造奇迹。——罗伯·舒乐
+  title: Devise
+  text: La vie est un chemin semé d'obstacles et de défis, mais c'est aussi une belle aventure pleine de surprises et de découvertes. Il ne faut pas craindre les difficultés, car elles sont les pierres d'un édifice qui nous permet de grandir et de devenir plus forts. Apprenons à apprécier chaque instant, que ce soit dans la joie ou dans la peine, car chaque expérience nous enrichit et nous forge. Ne soyons pas prisonniers du passé ni anxieux de l'avenir, mais vivons pleinement dans le présent, avec passion et détermination. La vraie réussite n'est pas seulement dans les biens matériels, mais dans la sérénité d'esprit, l'amour que nous donnons et recevons, et la réalisation de nos rêves les plus chers. Continuons à avancer, à explorer, à apprendre et à évoluer, car la vie est trop belle pour être gaspillée.
 
 # Whether to display the musics.
 # 是否在首页显示音乐.
@@ -144,8 +144,8 @@ recommend:
 
 # Configure website favicon and LOGO
 # 配置网站favicon和网站LOGO
-favicon: /favicon.png
-logo: /medias/logo.png
+favicon: /favicon.jpg
+logo: /favicon.jpg
 
 # The configuration of the second button in the home banner,
 # including the display name of the button, the font awesome icon, and the hyperlink to the button.
