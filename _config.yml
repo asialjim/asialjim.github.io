@@ -103,6 +103,5 @@ theme: hexo_theme_matery
 deploy:
   type: git
   repo: git@github.com:asialjim/asialjim.github.io
-  branch: dist
+  branch: main
   message: 'deploy to master'
-  token: $git-token
