@@ -105,3 +105,4 @@ deploy:
   repo: git@github.com:asialjim/asialjim.github.io
   branch: dist
   message: 'deploy to master'
+  token: $git-token
