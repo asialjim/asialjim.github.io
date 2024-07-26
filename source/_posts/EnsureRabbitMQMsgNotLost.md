@@ -36,7 +36,7 @@ date: 2024-07-26 14:17:33
     8. RoutingKey: 路由键，生产者将消息发送给交换机时用来指定路由规则。
     9. Queue： 消息队列，用来保存消息，共消费者消费。
 ## 工作原理图
-![图片](../../themes/hexo_theme_matery/source/medias/images/d61b59e862e50af860ae615b9ffb9dde.png)
+![图片](/medias/images/d61b59e862e50af860ae615b9ffb9dde.png)
 ### 常用交换机
     RabbitMQ常用交换机类型有：Direct, Topic, Fanout, Headers
 #### Direct 交换机
@@ -58,7 +58,7 @@ date: 2024-07-26 14:17:33
     2. 主队列与镜像队列通过消息同步机制，保持数据一致。
 
 消费原理图
-![图片](../../themes/hexo_theme_matery/source/medias/images/fe9817a835947c4c1ec9d04ee2e492ad.png)
+![图片](/medias/images/fe9817a835947c4c1ec9d04ee2e492ad.png)
 ## 高级特性
 #### 过期时间
     消息的生存时间，指一条消息在队列中存活的最大时间，单位毫秒。
