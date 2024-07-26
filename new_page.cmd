@@ -1,1 +1,1 @@
-npx hexo new post Activity
+npx hexo new post EnsureRabbitMQMsgNotLost
