@@ -553,7 +553,7 @@
 8. RoutingKey: 路由键，生产者将消息发送给交换机时用来指定路由规则。
 9. Queue： 消息队列，用来保存消息，共消费者消费。
 </code></pre>
-<h2 id="工作原理图"><a href="#工作原理图" class="headerlink" title="工作原理图"></a>工作原理图</h2><p><img src="/d61b59e862e50af860ae615b9ffb9dde.png" alt="图片"></p>
+<h2 id="工作原理图"><a href="#工作原理图" class="headerlink" title="工作原理图"></a>工作原理图</h2><p><img src="/medias/images/d61b59e862e50af860ae615b9ffb9dde.png" alt="图片"></p>
 <h3 id="常用交换机"><a href="#常用交换机" class="headerlink" title="常用交换机"></a>常用交换机</h3><pre><code>RabbitMQ常用交换机类型有：Direct, Topic, Fanout, Headers
 </code></pre>
 <h4 id="Direct-交换机"><a href="#Direct-交换机" class="headerlink" title="Direct 交换机"></a>Direct 交换机</h4><pre><code>见名知意，交换机需要绑定一个队列，要求该消息与一个特定的路由键完全匹配
@@ -571,7 +571,7 @@
 <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><pre><code>1. 消费者连接到Broker中，并按照指定规则订阅消息队列
 2. 主队列与镜像队列通过消息同步机制，保持数据一致。
 </code></pre>
-<p>消费原理图<br><img src="/fe9817a835947c4c1ec9d04ee2e492ad.png" alt="图片"></p>
+<p>消费原理图<br><img src="/medias/images/fe9817a835947c4c1ec9d04ee2e492ad.png" alt="图片"></p>
 <h2 id="高级特性"><a href="#高级特性" class="headerlink" title="高级特性"></a>高级特性</h2><h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><pre><code>消息的生存时间，指一条消息在队列中存活的最大时间，单位毫秒。
 根据此特性，消息发送时，可设置消息的过期时间。
 </code></pre>
