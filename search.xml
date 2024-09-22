@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>RabbitMQ保证消息不丢失</title>
+      <link href="/2024/07/26/EnsureRabbitMQMsgNotLost/"/>
+      <url>/2024/07/26/EnsureRabbitMQMsgNotLost/</url>
+      
+        <content type="html"><![CDATA[<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><h3 id="消息队列模式"><a href="#消息队列模式" class="headerlink" title="消息队列模式"></a>消息队列模式</h3><pre><code>当前，RabbitMQ主要分为两种模式，点对点模式和发布订阅模式</code></pre><h4 id="点对点模式"><a href="#点对点模式" class="headerlink" title="点对点模式"></a>点对点模式</h4><pre><code>所谓点对点模式，即：一个具体的消息（生产者）只能由一个消费者进行消费当一条消息正在被一个消费者消费时，其他消费者不能消费该消息</code></pre><h4 id="发布订阅模式"><a href="#发布订阅模式" class="headerlink" title="发布订阅模式"></a>发布订阅模式</h4><pre><code>所谓发布订阅模式，即：会有多个消费者按照某个规则订阅某一类消息。而这个规则，一般来讲就是MQ的所谓 Toic 和 Tag消费者可根据Topic 来消费消息。需要注意的时，发布订阅模式下， 一条消息将可以被多个消费者消费。</code></pre><h1 id="RabbitMQ-架构"><a href="#RabbitMQ-架构" class="headerlink" title="RabbitMQ 架构"></a>RabbitMQ 架构</h1><pre><code>由于RabbitMQ遵循AMQP协议，故此，RabbitMQ中也存在如下概念：1. Server: 实现 AMQP 服务2. Connection: 连接， 应用程序（生产者、消费者）与Server 的网络TCP链接3. Channel: 信道，应用程序与Server链接中建立的多个通道。每个通道表示一个会话任务。4. Message: 消息，即应用程序与服务器之间传送的数据。5. VirtualHost: 虚拟主机，用于隔离交换机和队列。6. Exchange：交换机，接受消息，并按照路由规则将消息按照规则路由到消息队列。7. Binding： 绑定，交换机和消息队列之间的虚拟链接8. RoutingKey: 路由键，生产者将消息发送给交换机时用来指定路由规则。9. Queue： 消息队列，用来保存消息，共消费者消费。</code></pre><h2 id="工作原理图"><a href="#工作原理图" class="headerlink" title="工作原理图"></a>工作原理图</h2><p><img src="/medias/images/d61b59e862e50af860ae615b9ffb9dde.png" alt="图片"></p><h3 id="常用交换机"><a href="#常用交换机" class="headerlink" title="常用交换机"></a>常用交换机</h3><pre><code>RabbitMQ常用交换机类型有：Direct, Topic, Fanout, Headers</code></pre><h4 id="Direct-交换机"><a href="#Direct-交换机" class="headerlink" title="Direct 交换机"></a>Direct 交换机</h4><pre><code>见名知意，交换机需要绑定一个队列，要求该消息与一个特定的路由键完全匹配</code></pre><h4 id="Fanout-交换机"><a href="#Fanout-交换机" class="headerlink" title="Fanout 交换机"></a>Fanout 交换机</h4><pre><code>交换机绑定到消息队列上，当一个发送到交换机的消息会被转发到与该消息绑定的所有队列，类似广播消息。</code></pre><h4 id="Topic-交换机"><a href="#Topic-交换机" class="headerlink" title="Topic 交换机"></a>Topic 交换机</h4><pre><code>交换机通过消息的某种规则（通配符），将消息路由到对应的队列中。</code></pre><h4 id="Header-交换机"><a href="#Header-交换机" class="headerlink" title="Header 交换机"></a>Header 交换机</h4><pre><code>与上面三种交换机不同，其消息路由方案是根据消息的请求头，路由到对应的规则</code></pre><h2 id="消费原理"><a href="#消费原理" class="headerlink" title="消费原理"></a>消费原理</h2><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><pre><code>1. Broker  MQ 服务器运行实例，用于维护该节点的队列的正山以及转发队列操作要求2. Master Queue:  每个队列有主队列和镜像队列。3. Mirror Queue:  镜像队列。作为 主队列的备份。</code></pre><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><pre><code>1. 消费者连接到Broker中，并按照指定规则订阅消息队列2. 主队列与镜像队列通过消息同步机制，保持数据一致。</code></pre><p>消费原理图<br><img src="/medias/images/fe9817a835947c4c1ec9d04ee2e492ad.png" alt="图片"></p><h2 id="高级特性"><a href="#高级特性" class="headerlink" title="高级特性"></a>高级特性</h2><h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><pre><code>消息的生存时间，指一条消息在队列中存活的最大时间，单位毫秒。根据此特性，消息发送时，可设置消息的过期时间。</code></pre><h4 id="消息确认"><a href="#消息确认" class="headerlink" title="消息确认"></a>消息确认</h4><pre><code>为了保证消息从队列可靠地到达消费者，提供确认机制。消费者订阅队列后，可以指定 ack参数。 RabbitMQ自动把发送的消息设置为确认。然后从内存或者硬盘中删除。而当指定消费者必须手动确认时，只有RabbitMQ 收到确认信号后，才会删除删除消息。</code></pre><p>此机制，可以保证消息的投递可靠性。</p><h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>成熟的消息队列，一定需要确保消息的可靠性，不会因为异常情况下丢失数据。<br>RabbitMQ 持久化分三部分</p><pre><code>交换器持久化，可保证RabbitMQ服务器重启后，交换器元数据不会丢失，且消息依旧能够发送到此交换器队列持久化，保证本身的元数据不会因异常情况丢失。但是不能保证内部存储的消息不会丢失消息持久化，服务重启后，消息不会丢失。</code></pre><h2 id="死信队列"><a href="#死信队列" class="headerlink" title="死信队列"></a>死信队列</h2><pre><code>所谓死信，表示消息被拒绝、消息过期或者队列到达最大长度时，消息无法正常投递到消费者。当消息在队列中变为死信后，将消息发送到死信队列，该队列专用于处理死信。死信队列一般用于分析消息异常、改进优化系统。</code></pre><h2 id="延迟队列"><a href="#延迟队列" class="headerlink" title="延迟队列"></a>延迟队列</h2><pre><code>所谓延迟队列，见名知意表示当消息从生产者发送到服务器后，消费者不会立即消费到该队列。根据消息指定的特定时间后，消费者才会消费到队列。</code></pre><h1 id="如何保证消息不丢失。"><a href="#如何保证消息不丢失。" class="headerlink" title="如何保证消息不丢失。"></a>如何保证消息不丢失。</h1><pre><code>根据以上信息，我们可以最大可能设计一套系统，保证消息不被丢失掉。</code></pre><h2 id="设计方案"><a href="#设计方案" class="headerlink" title="设计方案"></a>设计方案</h2><pre><code>1. 服务器配置开启交换机、队列和消息持久化。2. 开启消息确认机制，确保消息成功投递。3. 发送消息前，将消息持久化到数据库。 4. 发送消息时，当服务器明确收到消息后，将该消息在数据库标记为已发送5. 消费消息时，消费者将消息从数据库标记为已消费。6. 理论上，没有完全可靠的消息不丢失机制，需用户根据系统实际情况进行综合考虑</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 中间件 </category>
+          
+          <category> MQ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MQ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2024/06/10/hello-world/"/>
+      <url>/2024/06/10/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></tbody></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></tbody></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></tbody></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></tbody></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Index </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Index </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>activiti 工作流引擎</title>
+      <link href="/2024/06/07/activity/"/>
+      <url>/2024/06/07/activity/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Activity-Index"><a href="#Activity-Index" class="headerlink" title="Activity Index"></a>Activity Index</h1>]]></content>
+      
+      
+      <categories>
+          
+          <category> 中间件 </category>
+          
+          <category> 流程平台 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 流程平台 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
